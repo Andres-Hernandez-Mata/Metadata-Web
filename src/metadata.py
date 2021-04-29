@@ -8,9 +8,7 @@ Fecha: 26 Abril 2020
 
 import argparse
 import os
-import time
 from datetime import datetime
-import time
 import requests
 from lxml import html
 from bs4 import BeautifulSoup
@@ -31,14 +29,14 @@ print(datetime.now(), "\033[0;32m [INFO] Buscando... %s \033[0;0m" % url)
 print(datetime.now(), "\033[0;32m [INFO] Obteniendo imagenes de... %s \033[0;0m" % url)
 
 try:    
-    response = requests.get(url)  
+    response = requests.get(url)
     bs = BeautifulSoup(response.text, 'lxml')
     parsed_body = html.fromstring(response.text)
 
     print(datetime.now(), "\033[0;32m [INFO] Expresion regular para obtener las imagenes //img/@src  \033[0;0m")    
     images = parsed_body.xpath('//img/@src')
     
-    print(datetime.now(), "\033[0;32m [INFO] %s imagenes encontradas \033[0;0m" % len(images))            
+    print(datetime.now(), "\033[0;32m [INFO] %s imagenes encontradas \033[0;0m" % len(images))
     
     carpeta_images = pathlib.Path("images")
     if carpeta_images.exists():
@@ -60,18 +58,19 @@ try:
         if tagImage['src'].startswith("http") == False:
             descargar = url + tagImage['src']
         else:
-            descargar = tagImage['src']                        
+            descargar = tagImage['src']                      
         r = requests.get(descargar)
-        imagen = descargar.split('/')[-1]        
+        imagen = descargar.split('/')[-1]
         file_imagen = open('images/%s' % imagen, 'wb')
         print(datetime.now(), "\033[0;33m [INFO] Descargando %s\033[0;0m" % imagen)
         file_imagen.write(r.content)
         file_imagen.close()
         file_metadata = open('metadata/%s %s' % (imagen.split('.')[-2], '.txt'), 'wb')
+        print(datetime.now(), "\033[0;32m [INFO] Obteniendo la metadata de %s\033[0;0m" % imagen)
     print(datetime.now(), "\033[0;32m [INFO] Success \033[0;0m")
-except Exception as error:    
+except Exception as error:
     print(datetime.now(), "\033[0;91m [ERROR] Ha ocurrido un error en %s" % url)
-    print(error)    
+    print(error)
 
 
 
