@@ -15,6 +15,8 @@ import requests
 from lxml import html
 from bs4 import BeautifulSoup
 import pathlib
+from PIL import Image
+from PIL.ExifTags import TAGS
 
 os.system("cls")
 
@@ -60,16 +62,16 @@ try:
         else:
             descargar = tagImage['src']                        
         r = requests.get(descargar)
-        imagen = descargar.split('/')[-1]
-        f = open('images/%s' % imagen, 'wb')
+        imagen = descargar.split('/')[-1]        
+        file_imagen = open('images/%s' % imagen, 'wb')
         print(datetime.now(), "\033[0;33m [INFO] Descargando %s\033[0;0m" % imagen)
-        f.write(r.content)
-        f.close()
+        file_imagen.write(r.content)
+        file_imagen.close()
+        file_metadata = open('metadata/%s %s' % (imagen.split('.')[-2], '.txt'), 'wb')
+    print(datetime.now(), "\033[0;32m [INFO] Success \033[0;0m")
 except Exception as error:    
     print(datetime.now(), "\033[0;91m [ERROR] Ha ocurrido un error en %s" % url)
-    print(error)
-    pass
+    print(error)    
 
-print(datetime.now(), "\033[0;32m [INFO] Success \033[0;0m")
 
 
