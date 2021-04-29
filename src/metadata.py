@@ -74,8 +74,7 @@ def main():
 
 def decode_gps_info(exif):
     gpsinfo = {}
-    if 'GPSInfo' in exif:
-        #Parse geo references.
+    if 'GPSInfo' in exif:        
         Nsec = exif['GPSInfo'][2][2] 
         Nmin = exif['GPSInfo'][2][1]
         Ndeg = exif['GPSInfo'][2][0]
@@ -107,14 +106,14 @@ def get_metadata(image_path):
     return ret
 
 def print_metadata(imagen):
-    file = open("metadata/%s%s" % (imagen.split(".")[-2], ".txt"), 'w')    
-    file.write("[+] Metadata for file: %s " %(imagen))
+    file = open('metadata/%s%s' % (imagen.split('.')[-2], '.txt'), 'w')    
+    file.write('[+] Metadata for file: %s ' %(imagen))
     file.write(os.linesep)
     try:
         exifData = {}
-        exif = get_metadata("images/%s" % imagen)
+        exif = get_metadata('images/%s' % imagen)
         for metadata in exif:
-            file.write("Metadata: %s - Value: %s " %(metadata, exif[metadata]))
+            file.write('%s: %s ' %(metadata, exif[metadata]))
             file.write(os.linesep)
     except:
         import sys, traceback
